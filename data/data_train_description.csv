@@ -1,0 +1,5 @@
+﻿;;input;;;labels;;;;;metadata;;;
+Field Name;uid;rgb_path;hsi_path;las_path;class_id;xmin;ymin;xmax;ymax;width;height;class_name;class_code
+Description;unique identifier of each tree (indvdID in Idtrees dataset);path to RGB image tile wrt. root directory;path to hyperspectral image tile wrt. root directory;path to lidar image tile wrt. root directory;class / tree species ID (taxonCode);minimum distance of bounding box to origin [0,0] (at top-left )along x-axis (height) in pixel;max dist of bbox to origin along y-axis in pixel;max dist of bbox to origin;max dist of bbox to origin;width of image, along y-axis, in pixel;height of image, along x-axis, in pixel;class / tree species name (ScientificName);abbreviation for tree species (taxonID)
+Type;int;string;string;string;int;int;int;int;int;int;int;string;string
+Example;MLBS00797;\\idtrees\\data\\train\\RemoteSensing\\RGB\\MLBS_1.tif;\\idtrees\\data\\train\\RemoteSensing\\HSI\\MLBS_1.tif;\\idtrees\\data\\train\\RemoteSensing\\LAS\\MLBS_1.las;1;100;80;120;125;200;200;Acer pensylvanicum L.;ACPE
