@@ -1,6 +1,9 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
+from tifffile import imread
+
+from configs import *
 
 def get_im_paths(data_mode):
     # Returns list of all image paths 
@@ -10,7 +13,7 @@ def get_im_paths(data_mode):
     # im_paths: [string] - List of paths of all images wrt. root directory (idtrees) including file ending
     # Init paths of all image files
 
-    train_path = "data/train/RemoteSensing/" # Path of training data wrt. root directory
+    train_path = repo_path + "data/train/RemoteSensing/" # Path of training data wrt. root directory
     data_modes = ["RGB", "HSI", "LAS", "CHM"]
     mode_paths = ["RGB/", "HSI/", "LAS/", "CHM/"]
     mode_filetypes = [".tif", ".tif", ".las", ".tif"]
@@ -52,11 +55,11 @@ def get_hsi_pixels():
     # TODO: move this function into other file than read_tifs.py 
     """
     import torch
-    from dataset import TreeImagesDataset
+    from idtrees.utils.dataset import TreeImagesDataset
 
     # Load hsi dataset of bounding boxes with torch dataloader
     csv_file ='data/data_train_mitree.csv'
-    root_dir = '' # TODO: find out why we don't need to specicy root dir
+    root_dir = repo_path
     image_dataset = TreeImagesDataset(csv_file, root_dir, object_rec=False, datatype='hsi', instance_type = 'boxes')
     image_dataset = torch.utils.data.Subset(image_dataset, [0]) # TODO: find out what the [0] does
 
@@ -94,7 +97,6 @@ def read_tif_to_ndarray(im_path, verbose=False):
     # Output
     # im - ndarray(n_channels, height, width): RGB or HSI Image normalized to [0,1]
     """
-    from tifffile import imread
     # Read in image.tif and convert to float
     im_unnormalized = imread(im_path).astype(float)
 
@@ -153,7 +155,7 @@ def plot_all_ims(ims, title='rgb'):
     title = title
     # TODO: print plot on top of image: plt.title('Collection of ' + title + ' images')
     plt.draw()
-    plt.savefig('figures/collection_'+ title + '.png')
+    plt.savefig(repo_path + 'figures/collection_'+ title + '.png')
     
 
 def plot_spectral_curve(ims):
@@ -171,7 +173,7 @@ def plot_spectral_curve(ims):
     plt.xlabel(x_label)
     plt.ylabel('Intensity')
     plt.plot(x, spec_mean, )
-    plt.savefig('figures/spectral_curve' + title + '.png')
+    plt.savefig(repo_path +'figures/spectral_curve' + title + '.png')
     
 def plot_hyperspectral_curve_per_species(data, class_ids, scale_std = 1.):
     """
@@ -183,7 +185,7 @@ def plot_hyperspectral_curve_per_species(data, class_ids, scale_std = 1.):
     """
     # Get scientific names for curve labels
     # TODO: outsource into function that gets sci names
-    df_sci_name = pd.read_csv('data/train/Field/taxonID_ScientificName.csv')
+    df_sci_name = pd.read_csv(repo_path +'data/train/Field/taxonID_ScientificName.csv')
 
     fig, axs = plt.subplots(1, 1, figsize = (26, 19))
     for c in class_ids:
@@ -216,7 +218,7 @@ def plot_histogram_per_species(data, class_ids, n_bins = 20):
     """
 
     # Get scientific names for curve labels
-    df_sci_name = pd.read_csv('data/train/Field/taxonID_ScientificName.csv')
+    df_sci_name = pd.read_csv(repo_path + 'data/train/Field/taxonID_ScientificName.csv')
 
     fig, axs = plt.subplots(1, 1, figsize = (26, 19))
 
@@ -232,7 +234,8 @@ def plot_histogram_per_species(data, class_ids, n_bins = 20):
         hist = np.histogram(spectra_in_c, bins=n_bins)
 
         # Normalize histogram over number of trees per class
-        hist = np.array([hist[0], hist[1]]) # Copy tuple into array
+        # print(hist)
+        hist = [hist[0], hist[1]] # Copy tuple into array
         hist[0] = hist[0] / trees_in_c.shape[0] 
 
         # Plot histogram 
@@ -245,4 +248,4 @@ def plot_histogram_per_species(data, class_ids, n_bins = 20):
     plt.ylabel('Number of bands')#Class ID')
     plt.title('Histogram: Frequency of bands per class')
     plt.legend()
-    plt.savefig('figures/histogram_over_cls.png')
+    plt.savefig(repo_path +'figures/histogram_over_cls.png')

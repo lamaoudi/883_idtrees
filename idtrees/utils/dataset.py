@@ -32,6 +32,7 @@ import torch
 from PIL import Image
 from idtrees.utils import read_tifs
 
+from configs import *
 
 class TreeImagesDataset(object):
     def __init__(self,csv_file, root_dir, transforms=None, object_rec=False ,

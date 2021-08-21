@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 
 import read_tifs # To import all image paths from data utils
-
+from configs import *
 """
 # Reads in data from IDtrees challenge and creates csv file
 """
@@ -158,7 +158,7 @@ def read_ims(df):
 df = read_ims(df)
 
 # Dump dataframe to csv utf-8 file
-df.to_csv(r'data/data_train_mitree.csv', index=True)
+df.to_csv(repo_path + r'data/data_train_mitree.csv', index=True)
 import pdb; pdb.set_trace()
 
 """
