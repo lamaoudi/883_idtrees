@@ -73,7 +73,7 @@ def get_hsi_pixels():
     for idx in range(n_boxes): 
         # Get image and target of current bounding box 
         im, target = image_dataset.dataset.__getitem__(idx)
-
+        #print(im, target)
         # Append the spectra and class id of all pixels in bbox to a list
         n_px = np.prod(im.shape[1:])
         spectra.append(im.reshape(-1, n_px))
@@ -186,6 +186,8 @@ def plot_hyperspectral_curve_per_species(data, class_ids, scale_std = 1.):
     # Get scientific names for curve labels
     # TODO: outsource into function that gets sci names
     df_sci_name = pd.read_csv(repo_path +'data/train/Field/taxonID_ScientificName.csv')
+    df_sci_name.loc[34, :] = [34., 'OTHER', 'ALL Others']
+
 
     fig, axs = plt.subplots(1, 1, figsize = (26, 19))
     for c in class_ids:
