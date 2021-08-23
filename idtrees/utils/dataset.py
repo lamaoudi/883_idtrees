@@ -88,7 +88,7 @@ class TreeImagesDataset(object):
 
         crop_im = im[:, box[0]:box[1]+1, box[2]:box[3]+1]
         if np.any(np.array(crop_im.shape) == 0):
-            print('[WARNING] Loaded box has zero shape and is sketchily inflated. TODO: skip this box')
+            print('[WARNING] Loaded box has zero shape and is sketchily inflated. TODO: skip this box with ID', idx)
             if box[0] == self.df.width.iloc[idx]/r_box_im: box[0] -= 1
             if box[2] == self.df.height.iloc[idx]/r_box_im: box[2] -= 1
             crop_im = im[:, box[0]:box[1]+1, box[2]:box[3]+1]
